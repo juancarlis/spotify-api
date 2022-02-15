@@ -50,7 +50,8 @@ async def search_albums(q: Optional[str] = Query(None)):
         - q: Query format of the name of the band to search for.
 
     Returns: 
-        -
+        - 
     """
+    print(api.headers)
 
     return api.get_albums(q)
