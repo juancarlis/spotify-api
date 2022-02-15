@@ -133,3 +133,6 @@ notebooks/
 
 # Test Directory
 app/test-data/
+
+# Config file with secrets
+config/config.yaml
