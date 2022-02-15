@@ -12,6 +12,8 @@ from config.common import config
 app = FastAPI()
 api = Spotiapi(config()['CLIENT_ID'], config()['CLIENT_SECRET'])
 
+api.authorize()
+
 
 @app.get(path='/')
 def home():

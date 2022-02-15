@@ -15,7 +15,7 @@ class Spotiapi:
         # Store data in memory
         self.data = {}
 
-    def _authorize(self):
+    def authorize(self):
         AUTH_URL = 'https://accounts.spotify.com/api/token'
 
         # Clean headers
@@ -39,6 +39,10 @@ class Spotiapi:
             'Authorization': 'Bearer {token}'.format(token=access_token)
         }
 
+    def _is_valid(foo):
+        def inner(self):
+            pass
+
     def get_albums(self, band_name):
         r = requests.get(
             self.BASE_URL + f'search?q={band_name}&type=album',
@@ -49,7 +53,9 @@ class Spotiapi:
             }
         )
 
-        self.data = r.json()
+        print(r.status_code)
+
+        # self.data = {r.status_code, r.json()}
 
 #        df = pd.DataFrame.from_dict(data['albums']['items'])
 #        df = df[['name', 'release_date', 'total_tracks', 'images']]
