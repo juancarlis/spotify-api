@@ -1,3 +1,6 @@
+"""To start the config
+
+"""
 import yaml
 
 __config = None

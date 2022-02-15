@@ -135,6 +135,5 @@ notebooks/
 app/test-data/
 
 # Config file with secrets
-app/config/config.yaml
 
 app/test.py
