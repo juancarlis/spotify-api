@@ -1,4 +1,6 @@
 import requests
+import pandas as pd
+import json
 
 
 class Spotiapi:
@@ -11,9 +13,6 @@ class Spotiapi:
 
         # Contains the access token for the requests
         self.headers = {}
-
-        # Store data in memory
-        self.data = {}
 
     def authorize(self):
         AUTH_URL = 'https://accounts.spotify.com/api/token'
@@ -53,14 +52,14 @@ class Spotiapi:
             }
         )
 
-        print(r.status_code)
+        data = r.json()
 
-        # self.data = {r.status_code, r.json()}
+        df = pd.DataFrame.from_dict(data['albums']['items'])
+        df = df[['name', 'release_date', 'total_tracks', 'images']]
+        df = df.rename(columns={
+            'release_date': 'release',
+            'total_tracks': 'tracks',
+            'images': 'cover'
+        })
 
-#        df = pd.DataFrame.from_dict(data['albums']['items'])
-#        df = df[['name', 'release_date', 'total_tracks', 'images']]
-#        df = df.rename(columns={
-#            'release_date': 'release',
-#            'total_tracks': 'tracks',
-#            'images': 'cover'
-#        })
+        return json.loads(df.to_json(orient='records'))

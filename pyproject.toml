@@ -6,12 +6,12 @@ authors = ["Juan I. Carlis <juancarlis93@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = ">=0.68.0,<0.69.0"
-pydantic = ">=1.8.0,<2.0.0"
-uvicorn = ">=0.15.0,<0.16.0"
 PyYAML = "^6.0"
 requests = "^2.27.1"
 pandas = "^1.4.1"
+fastapi = ">=0.68.0,<0.69.0"
+pydantic = ">=1.8.0,<2.0.0"
+uvicorn = ">=0.15.0,<0.16.0"
 
 [tool.poetry.dev-dependencies]
 
