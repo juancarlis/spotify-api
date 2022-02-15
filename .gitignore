@@ -135,4 +135,5 @@ notebooks/
 app/test-data/
 
 # Config file with secrets
-config/config.yaml
+app/config/config.yaml
+
