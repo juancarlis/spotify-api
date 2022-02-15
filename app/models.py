@@ -10,6 +10,6 @@ from pydantic import Field
 
 class Album(BaseModel):
     name: str = Field(...)
-    release: date
+    release: date(...)
     tracks_qty: int = Field(...)
-    cover: dict = Field()
+    cover: list = Field()
