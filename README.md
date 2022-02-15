@@ -59,6 +59,11 @@ Compose is a tool for defining and running multi-container Docker applications. 
 ## Deploy del servidor (Local)
 Existen diversas formas de correr el proyecto. Se debe montar necesariamente sobre un SO basado en Linux. En caso de querer ejecutarlo en un entorno Windows se recomienda activar el [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) e instalar una distribución de Linux. 
 	
+En todos los casos **es necesario modificar el archivo config.yaml (app/config/config.yaml)** con las credenciales de una App de Spotify.
+
+Configurar su App de Spotify en el siguiente [enlace](https://developer.spotify.com/dashboard/applications).
+Se deberá crear una App nueva y pegar el CLIENT_ID y CLIENT_SECRET en el archivo config.yaml - las actuales fueron revocadas por motivos de seguridad.
+	
 ### Poetry
 En caso de tener instalado Poetry en el equipo, el servidor se lanza desde la carpeta app dentro del proyecto:
 ```bash
