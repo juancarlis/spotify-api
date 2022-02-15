@@ -56,17 +56,17 @@ Docker is an open platform for developing, shipping, and running applications. D
 Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application’s services. Then, with a single command, you create and start all the services from your configuration.
 ```
 
-## Pruebas
+## Deploy del servidor (Local)
 Existen diversas formas de correr el proyecto. Se debe montar necesariamente sobre un SO basado en Linux. En caso de querer ejecutarlo en un entorno Windows se recomienda activar el [WSL](https://docs.microsoft.com/en-us/windows/wsl/install) e instalar una distribución de Linux. 
 	
 ### Poetry
 En caso de tener instalado Poetry en el equipo, el servidor se lanza desde la carpeta app dentro del proyecto:
 ```bash
-poetry run uvicorn main:app
+poetry run uvicorn main:app --host 0.0.0.0 --port 8000
 ```
 Y para que recargue en caso de detectar cambios:
 ```bash
-poetry run uvicorn main:app --reload
+poetry run uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 	
 ### Docker
@@ -96,5 +96,17 @@ pip install -r requirements.txt
 Finalmente se levanta el servidor con Uvicorn desde la carpeta app dentro del proyecto.
 ```bash
 cd app
-uvicorn main:app --reload
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
+## Test API
+Una vez lanzado el servidor verificar en un navegador ir a:
+ - http://localhost:80/ si se utilizó Docker
+ - http://localhost:8000/ si se utilizó método distinto de Docker
+
+Luego puede testear el endpoint:
+	
+/api/v1/albums?q=Band+Name
+	
+Por ejemplo:
+http://localhost/api/v1/albums?q=Iron+Maiden
+
