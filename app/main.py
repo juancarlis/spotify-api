@@ -1,3 +1,9 @@
+""" API Docs
+
+
+"""
+
+
 import json
 
 from typing import Optional
@@ -18,23 +24,6 @@ api.authorize()
 @app.get(path='/')
 def home():
     return {'Test API': 'Hello World!'}
-
-
-@app.get('/api/json/')
-def get_json():
-
-    with open('data.json', 'r', encoding='utf-8') as f:
-
-        results = json.loads(f.read())
-
-        return results
-
-
-@app.get('/test/albums')
-def test(
-        q: Optional[str] = Query(None)
-):
-    return q
 
 
 @app.get(
