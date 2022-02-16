@@ -1,52 +1,76 @@
-""" Connection to Spotify API.
+""" Class to manage connection to Spotify API.
 """
 
 import requests
 import pandas as pd
 import json
+import time
 
 
 class Spotiapi:
+    client_id = None
+    secret_key = None
+    access_token = None
+    access_token_expiration = None
+    headers = None
+
     def __init__(self, client_id, client_secret):
-        self.CLIENT_ID = client_id
-        self.CLIENT_SECRET = client_secret
+        self.client_id = client_id
+        self.client_secret = client_secret
 
         # Base URL of all Spotify API endpoints
         self.BASE_URL = 'https://api.spotify.com/v1/'
 
-        # Contains the access token for the requests
-        self.headers = {}
+        try:
+            self.access_token = self._authorize()
+            if self.access_token is None:
+                raise Exception('Request for access token failed.')
+        except Exception as e:
+            print(e)
+        else:
+            # Headers contain the token for the requests
+            self.headers = {}
+            self.headers = {
+                'Authorization': 'Bearer {token}'.format(token=self.access_token)
+            }
 
-    def authorize(self):
-        """To get the authorization access_token."""
+            self.access_token_expiration = time.time() + 3500
 
-        AUTH_URL = 'https://accounts.spotify.com/api/token'
+    def _authorize(self):
+        '''Creates a connection using the CLIENT_ID and CLIENT_SECRET and returns an access_token.
 
-        # Clean headers
-        self.headers = {}
+        Returns: 
+            - access_token(str)
+        '''
+        try:
+            AUTH_URL = 'https://accounts.spotify.com/api/token'
 
-        # POST
-        auth_response = requests.post(AUTH_URL, {
-            'grant_type': 'client_credentials',
-            'client_id': self.CLIENT_ID,
-            'client_secret': self.CLIENT_SECRET
-        })
+            auth_response = requests.post(AUTH_URL, {
+                'grant_type': 'client_credentials',
+                'client_id': self.client_id,
+                'client_secret': self.client_secret
+            })
 
-        # Convert the response to JSON
-        auth_response_data = auth_response.json()
+            auth_response.raise_for_status()
 
-        # Save the access token
-        access_token = auth_response_data['access_token']
+        except Exception as e:
+            print(e)
+            return None
+        else:
+            return auth_response.json()['access_token']
 
-        # Get headers
-        self.headers = {
-            'Authorization': 'Bearer {token}'.format(token=access_token)
-        }
+    class Decorators():
+        @staticmethod
+        def refresh_token(decorated):
+            '''Re-authorizes the Spotify API if the access_token has expired.
+            '''
+            def wrapper(api, *args, **kwargs):
+                if time.time() > api.access_token_expiration:
+                    api._authorize()
+                return decorated(api, *args, **kwargs)
+            return wrapper
 
-    def _is_valid(foo):
-        def inner(self):
-            pass
-
+    @Decorators.refresh_token
     def get_albums(self, band_name):
         """Gets data from Spotify API and transform it to the required
         format with the help of Pandas. 
@@ -56,8 +80,8 @@ class Spotiapi:
 
         Returns:
             - JSON in the required format.
-
         """
+
         r = requests.get(
             self.BASE_URL + f'search?q={band_name}&type=album',
             headers=self.headers,
