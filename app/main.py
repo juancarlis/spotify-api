@@ -2,15 +2,14 @@
 
 
 """
-
-
+# Python
 import json
 
+# Fastapi
 from typing import Optional
-
 from fastapi import FastAPI, status, Query
 
-# from models import Album
+# Project modules
 from backend import Spotiapi
 from config.common import config
 
@@ -23,7 +22,7 @@ api.authorize()
 
 @app.get(path='/')
 def home():
-    return {'Test API': 'Hello World!'}
+    return 'SpotiAPI for Banza Challenge'
 
 
 @app.get(
@@ -39,8 +38,22 @@ async def search_albums(q: Optional[str] = Query(None)):
         - q: Query format of the name of the band to search for.
 
     Returns: 
-        - 
+        - json in the format:
+
+        [{	
+            "name": "Album Name",
+            "released": "10-10-2010",
+            "tracks": 10,
+            "cover":{
+                    "height": 640, 
+                    "width": 640,
+                    "url": "https://i.scdn.co/image/6c951f3f334e05ffa"
+                    }
+        },
+        {
+            ...
+        }]
+
     """
-    print(api.headers)
 
     return api.get_albums(q)

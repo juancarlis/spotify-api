@@ -1,3 +1,6 @@
+""" Connection to Spotify API.
+"""
+
 import requests
 import pandas as pd
 import json
@@ -15,6 +18,8 @@ class Spotiapi:
         self.headers = {}
 
     def authorize(self):
+        """To get the authorization access_token."""
+
         AUTH_URL = 'https://accounts.spotify.com/api/token'
 
         # Clean headers
@@ -43,6 +48,16 @@ class Spotiapi:
             pass
 
     def get_albums(self, band_name):
+        """Gets data from Spotify API and transform it to the required
+        format with the help of Pandas. 
+
+        Parameters: 
+            - band_name(str): Band name in the format -> Some+Band+Name
+
+        Returns:
+            - JSON in the required format.
+
+        """
         r = requests.get(
             self.BASE_URL + f'search?q={band_name}&type=album',
             headers=self.headers,
