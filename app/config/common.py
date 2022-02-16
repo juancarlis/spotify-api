@@ -1,5 +1,6 @@
-"""To start the config
+"""To load config into __config variable.
 
+This is used to avoid loading several times the file.
 """
 import yaml
 
